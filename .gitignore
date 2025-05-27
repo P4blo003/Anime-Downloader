@@ -1,0 +1,13 @@
+# ----------------------------------------------------------------------------------------
+# · Filename: .gitignore
+# · Author: Pablo González García.
+# · Copyright (c) 2025 Pablo González García. All rights reserved.
+# · Created on: 2025-05-07
+# · Descripción: Fichero para indicar los directorios/ficheros que serán excluidos
+# del control de versiones.
+# ----------------------------------------------------------------------------------------
+
+# Entorno con las dependencias del proyecto.
+venv/
+# Directorio con ficheros de ejecución de Python.
+__pycache__/

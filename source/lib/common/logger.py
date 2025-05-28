@@ -2,7 +2,7 @@
 # · Filename: logger.py
 # · Author: Pablo González García.
 # · Copyright (c) 2025 Pablo González García. All rights reserved.
-# · Created on: 2025-05-07
+# · Created on: 2025-05-27
 # · Descripción: Módulo con funciones encargadas para ayudar con la implementación y 
 # configuración de loggers.
 # ----------------------------------------------------------------------------------------

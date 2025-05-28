@@ -7,16 +7,14 @@
 # ----------------------------------------------------------------------------------------
 
 
-# ---- MÓDULO ---- #
-from logging import Logger
-from lib.common.logger import create_logger
+# ---- MÓDULOS ---- #
+from lib.common.label import print_header, print_actions
 
 
 # ---- LÓGICA PRINCIPAL ---- #
 if __name__ == "__main__":
 
-    # -- Variables globales -- #
-    logger:Logger = create_logger(logger_name=__name__)
-
     # -- Flujo principal -- #
-    logger.info("Iniciada ejecición del programa.")
+    print_header("Anime-Downloader")            # Imprime el título.
+
+    print_actions(header='Acciones', actions=['Listar Animes', 'Buscar Animes'])

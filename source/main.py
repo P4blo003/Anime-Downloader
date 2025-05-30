@@ -17,16 +17,18 @@ if __name__ == "__main__":
     # -- Flujo principal -- #
     print_header("Anime-Downloader")            # Imprime el título.
 
-    from lib.core.animeFlv import AnimeFlv
 
-    m = AnimeFlv()
+    from lib.core.anime_fenix.anime import AnimeFenixManager
+    from lib.core.anime_flv.anime import AnimeFlvManager
 
-    animes = m.find_anime("Sword Art Online")
 
-    from lib.core.animeFlv import AnimeFlv_Anime
-    
-    url = animes[0][1]
+    flv = AnimeFlvManager().find_animes("dragon ball")
+    fenix = AnimeFenixManager().find_animes("dragon ball")
 
-    anime:AnimeFlv_Anime = AnimeFlv_Anime(url=url)
+    print(f"AnimeFlv -> Found: {len(flv)} animes.")
+    print(f"- NAME: {flv[0][0]} URL: {flv[0][1]}")
+    print(f"AnimeFenix -> Found: {len(fenix)} animes.")
+    print(f"- NAME: {fenix[0][0]} URL: {fenix[0][1]}")
 
-    print(anime)
+    print(AnimeFlvManager().load_anime(flv[0][1]))
+    print(AnimeFenixManager().load_anime(fenix[0][1]))

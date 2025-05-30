@@ -15,6 +15,19 @@ from http import HTTPStatus
 
 
 # ---- CLASES ---- #
+class NetworkError (Exception):
+    """
+    Excepción causada cuando hay algun error.
+    """
+    # -- Métodos por defecto -- #
+    def __init__(self, *args):
+        """
+        Inicializa la instancia.
+        """
+        # Inicializa las propiedades.
+        super().__init__(*args)
+
+
 class NetworkBadResponseError(Exception):
     """
     Excepción causada cuando el estado de la respuesta de una petición a una URL no sea 200.

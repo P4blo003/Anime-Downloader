@@ -1,128 +1,76 @@
-# ----------------------------------------------------------------------------------------
-# · Filename: string.py
-# · Author: Pablo González García.
-# · Copyright (c) 2025 Pablo González García. All rights reserved.
-# · Created on: 2025-05-30
-# · Descripción: Módulo con clases y funciones encargadas para los animes.
-# ----------------------------------------------------------------------------------------
-
-
 # ---- MÓDULOS ---- #
-from typing import List
+from abc import ABC
+from typing import List, Tuple
 
-from lib.common.types.int import int_to_str
+from dataclasses import dataclass, field
+
+from abc import abstractmethod
 
 
 # ---- CLASES ---- #
-class BaseEpisode:
+@dataclass
+class Anime:
     """
-    Representa el episodio de un anime. Almacena la información del mismo y las
-    funciones.
+    Clase base que representa un anime. Contiene la información y métodos base.
+
+    Attributes:
+        Name (str): Nombre del anime.
+        Description (str): Descripción del anime.
     """
+    # -- Propiedades -- #
+    __name:str = field(init=False, repr=False)
+    __description:str = field(init=False, repr=False)
+
+
     # -- Métodos por defecto -- #
-    def __init__(self, episode_num:int):
+    def __init__(self, name:str, description:str, themes:List[str]):
         """
         Inicializa la instancia.
 
         Args:
-            episode_num (int): El número del episodio.
+            name (str): Nombre del anime.
+            description (str): Descripción del anime.
+            themes (List[str]): Listado con los temas del anime.
         """
         # Inicializa las propiedades.
-        self.__episodeNum:int = episode_num
-        self.__name:str = f"ep_{int_to_str(num=self.EpisodeNum, result_length=5)}"
+        self.__name:str = name
+        self.__description:str = description
+        self.__themes:List[str] = themes
     
     def __repr__(self) -> str:
         """
-        Genera la representación en cadena del objeto.
+        Devuelve la representación en cadena del objeto.
 
         Returns:
-            str: La representación en cadena del objeto.
+            str: Representación en cadena del objeto.
         """
         # Variable a devolver.
-        strfmt:str = f"NAME: {self.Name}"
-
-        # Retorna la cadena generada.
+        strfmt:str = f"· Name: {self.Name}\n· Description: {self.Description}\n· Temas: "
+        
+        # Comrpueba que haya algún tema en el anime.
+        if len(self.Themes):
+            strfmt += f" {self.Themes[0]}"      # Añade el tema.
+            # Comprueba que haya más de un tema que añadir.
+            if len(self.Themes) > 1:
+                # Para cada tema restante.
+                for theme in self.Themes[1:]:
+                    strfmt += f" | {theme}"     # Añade el tema.
+        
+        # Retorna la cadena.
         return strfmt
-    
+
 
     # -- Propiedades -- #
     @property
-    def EpisodeNum(self) -> int:
-        """
-        Devuelve el número de episodio.
-
-        Returns:
-            int: El número del episodio.
-        """
-        return self.__episodeNum
-    
-    @property
     def Name(self) -> str:
         """
-        Devuelve el nombre del episodio.
+        Retorna el nombre del anime.
 
         Returns:
-            str: El nombre del episodio.
+            str: El nombre del anime.
         """
+        # Retorna el valor.
         return self.__name
-
-
-class BaseAnime:
-    """
-    Representa a un anime. Almacena la información del mismo y las funciones.
-    """
-    # -- Métodos por defecto -- #
-    def __init__(self, title:str, description:str, themes:List[str], episodes:List[BaseEpisode]):
-        """
-        Inicializa la instancia.
-
-        Args:
-            title (str): El título del anime.
-            description (str): La descripción del anime.
-            themes (List[str]): Lista con los temas del anime.
-            episodes (List[BaseEpisode]): Lista con los episodios del anime.
-        """
-        # Inicializa las propiedades.
-        self.__title:str = title
-        self.__description:str = description
-        self.__themes:List[str] = themes
-        self.__episodes:List[BaseEpisode] = episodes
-
-    def __repr__(self) -> str:
-        """
-        Genera la representación en cadena del objeto.
-
-        Returns:
-            str: La representación en cadena del objeto.
-        """
-        # Variable a devolver.
-        strfmt:str = f"- TÍTULO: {self.Title}\n- DESCRIPCIÓN: {self.Description}\n- TEMAS: "
-
-        # Añade los temas del anime.
-        if len(self.Themes) >= 1:
-            strfmt += self.Themes[0]
-            # Si quedan más temas que añadir.
-            if len(self.Themes) > 1:
-                for theme in self.Themes[1:]:   # Para cada tema.
-                    strfmt += f" | {theme}"     # Añade el tema.
-        
-        # Añade la información de los episodios.
-        strfmt += f"\n- EPISODIOS: {len(self.Episodes)}\n"
-
-        # Retorna la cadena generada.
-        return strfmt
-
-
-    # -- Propiedades --
-    @property
-    def Title(self) -> str:
-        """
-        Devuelve el título del anime.
-
-        Returns:
-            str: El título del anime.
-        """
-        return self.__title
     
     @property
     def Description(self) -> str:
@@ -130,26 +78,92 @@ class BaseAnime:
         Devuelve la descripción del anime.
 
         Returns:
-            str: La descripción del anime.
+            str: Descripción del anime.
         """
         return self.__description
     
     @property
     def Themes(self) -> List[str]:
         """
-        Devuelve los temas del anime.
+        Devuelve el listado con los temas del anime.
 
         Returns:
-            List[str]: Los temas del anime.
+            List[str]: Listado con los temas del anime.
         """
         return self.__themes
-    
-    @property
-    def Episodes(self) -> List[BaseEpisode]:
+
+
+class AnimeManager:
+    """
+    Clase base que representa un manager. Los managers son clases que contienen funciones
+    para listar, descargar, etc. animes de páginas web.
+    """
+    # -- Métodos por defecto -- #
+    def __init__(self):
         """
-        Devuelve el listado con los episodios del anime.
+        Inicializa la instancia.
+        """
+        pass
+
+
+    # -- Metodos abstractos -- #
+    @abstractmethod
+    def find_animes(self, name:str) -> List[Tuple[str, str]]:
+        """
+        Busca los animes disponibles a partir de un nombre dado. Devuelve un listado con tuplas.
+            Cada tupla esta formada por:
+            - index 0 = Nombre del anime.
+            - index 1 = URL del anime.
+
+        Args:
+            name (str): El nombre del anime a buscar.
 
         Returns:
-            List[BaseEpisode]: El listado con los episodios del anime.
+            List[Tuple[str,str]]: El listado con la información encontrada.
         """
-        return self.__episodes
+        pass
+
+    @abstractmethod
+    def load_anime(self, url:str) -> Anime:
+        """
+        A partir de la URL de la página inicial de un Anime. Carga todos los datos del mismo.
+
+        Args:
+            url (str): URL de la página inicial del Anime.
+        
+        Returns:
+            Anime: Instancia con la información del Anime.
+        """
+        pass
+
+
+# ---- FUNCIONES ---- #
+def query_from_name(name:str) -> str:
+    """
+    Genera la query del nombre. Este valor vale para las webs de AnimeFlv y AnimeFenix.
+    
+    Args:
+        name (str): El nombre del anime para generar la query.
+    
+    Returns:
+        str: La query generada.
+    
+    Examples:
+        - 'Dragon Ball 2' -> 'dragon+ball+2'.
+    """
+    # Variable a devolver.
+    query:str = ""
+
+    # Genera la query.
+    words:List[str] = name.split(" ")           # Separa el nombre por palabras.
+    # Comprueba que haya palabras que añadir.
+    if len(words) >= 1:
+        query = words[0]                        # Añade la primera palabra.
+        # Comprueba que haya más de 1 palabra para añadir.
+        if len(words) > 1:
+            # Para cada palabra restante.
+            for word in words[1:]:
+                query += f"+{word}"             # Añade la palabra.
+    
+    # Retorna la query generada.
+    return query

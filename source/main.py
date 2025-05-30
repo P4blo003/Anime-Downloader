@@ -8,9 +8,7 @@
 
 
 # ---- MÓDULOS ---- #
-from lib.common.label import print_header, print_actions
-
-from lib.core.animeFlv import AnimeFlv
+from lib.common.label import print_header
 
 
 # ---- LÓGICA PRINCIPAL ---- #
@@ -19,14 +17,16 @@ if __name__ == "__main__":
     # -- Flujo principal -- #
     print_header("Anime-Downloader")            # Imprime el título.
 
-    mng = AnimeFlv()
+    from lib.core.animeFlv import AnimeFlv
 
-    animes = mng.find_anime("DraGon  baLl   2")
+    m = AnimeFlv()
 
-    anime = animes[0]
+    animes = m.find_anime("Sword Art Online")
 
-    anime.load_episodes()
+    from lib.core.animeFlv import AnimeFlv_Anime
+    
+    url = animes[0][1]
 
-    anime.Episodes[0].load_download_servers()
+    anime:AnimeFlv_Anime = AnimeFlv_Anime(url=url)
 
-    print(anime.Episodes[0].DownloadServers)
+    print(anime)

@@ -100,3 +100,20 @@ def get_html(url:str) -> BeautifulSoup:
 
     # Retorna el HTMl obtenido.
     return soup
+
+
+def url_join(*args) -> str:
+    """
+    Genera una URL a partir de los argumentos dados.
+
+    Args:
+        args: Argumentos a añadir en la URL.
+    
+    Returns:
+        URL: La URL generada.
+    """
+    # Genera la URL.
+    url:str = '/'.join(str(arg).strip('/') for arg in args if arg).strip('/')
+
+    # Devuelve la URL generada.
+    return url
